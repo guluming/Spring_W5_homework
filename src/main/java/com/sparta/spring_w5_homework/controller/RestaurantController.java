@@ -1,5 +1,6 @@
 package com.sparta.spring_w5_homework.controller;
 
+import com.sparta.spring_w5_homework.model.Restaurant;
 import com.sparta.spring_w5_homework.requestdto.RestaurantRequestDto;
 import com.sparta.spring_w5_homework.responsedto.RestaurantResponseDto;
 import com.sparta.spring_w5_homework.service.RestaurantService;
@@ -20,7 +21,7 @@ public class RestaurantController {
 
     //음식점 등록
     @PostMapping("/restaurant/register")
-    public String save(@RequestBody RestaurantRequestDto params){
+    public Restaurant save(@RequestBody RestaurantRequestDto params){
         return restaurantService.restaurantSave(params);
     }
 
