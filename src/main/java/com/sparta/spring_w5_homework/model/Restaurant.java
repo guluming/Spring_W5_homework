@@ -34,7 +34,7 @@ public class Restaurant extends Timestamped {
     public Restaurant(RestaurantRequestDto params){
         this.name = params.getName();
         this.minOrderPrice = params.getMinOrderPrice();
-        this.deliveryFee = params.getDeilveryFee();
+        this.deliveryFee = params.getDeliveryFee();
         this.modifiedAt = params.getModifiedAt();
     }
 
