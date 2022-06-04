@@ -21,17 +21,9 @@ public class Orders extends Timestamped {
     @Id
     private Long id;
     @Column(nullable = false)
-    private Long restaurantId;
+    private Long restaurantIds;
     @Column(nullable = false)
     private String restaurantName;
-    @Column(nullable = false)
-    private Long foodId;
-    @Column(nullable = false)
-    private String name;
-    @Column(nullable = false)
-    private int quantity;
-    @Column(nullable = false)
-    private int price;
     @Column(nullable = false)
     private int deliveryFee;
     @Column(nullable = false)
@@ -41,13 +33,17 @@ public class Orders extends Timestamped {
     @LastModifiedDate
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
-    public Orders(OrdersRequestDto params){
-        this.restaurantId =params.getRestaurantId();
+        public Orders(Long restaurantIds, String restaurantName, int deliveryFee, int totalPrice, LocalDateTime modifiedAt){
+            this.restaurantIds = restaurantIds;
+            this.restaurantName = restaurantName;
+            this.deliveryFee = deliveryFee;
+            this.totalPrice = totalPrice;
+            this.modifiedAt = modifiedAt;
+        }
+
+        public Orders(OrdersRequestDto params){
+        this.restaurantIds = params.getResId();
         this.restaurantName = params.getRestaurantName();
-        this.foodId = params.getFoodId();
-        this.name = params.getName();
-        this.quantity = params.getQuantity();
-        this.price = params.getPrice();
         this.deliveryFee = params.getDeliveryFee();
         this.totalPrice = params.getTotalPrice();
         this.modifiedAt = params.getModifiedAt();
