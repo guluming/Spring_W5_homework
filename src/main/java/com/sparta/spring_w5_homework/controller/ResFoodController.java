@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.spring_w5_homework.requestdto.ResFoodRequestDto;
 import com.sparta.spring_w5_homework.requestdto.ResFoodRequestListDto;
 import com.sparta.spring_w5_homework.responsedto.ResFoodResponseDto;
 import com.sparta.spring_w5_homework.service.ResFoodService;

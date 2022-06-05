@@ -24,29 +24,29 @@ public class RestaurantService {
     public Restaurant restaurantSave(RestaurantRequestDto params) {
 
         if (params.getName().equals("")) {
-            throw new IllegalArgumentException("");
-//            return "음식점 이름을 입력해주세요";
+            throw new IllegalArgumentException("음식점 이름을 입력해주세요.");
+//            return "음식점 이름을 입력해주세요.";
         }
 
         if (params.getMinOrderPrice() < 1000 && params.getMinOrderPrice() > 100000) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("최소주문 가격 허용 범위는 1,000원 ~ 100,000원 입니다.");
 //            return "최소주문 가격 허용 범위는 1,000원 ~ 100,000원 입니다.";
         } else if (params.getMinOrderPrice() % 100 != 0) {
-            throw new IllegalArgumentException("");
-//            return "최소주문 가격은 100원 단위로만 입력이 가능합니다";
+            throw new IllegalArgumentException("최소주문 가격은 100원 단위로만 입력이 가능합니다.");
+//            return "최소주문 가격은 100원 단위로만 입력이 가능합니다.";
             }
 
             if (params.getDeliveryFee() < 0 && params.getDeliveryFee() > 10000) {
-                throw new IllegalArgumentException("");
+                throw new IllegalArgumentException("기본 배달비 허용 범위는 0원 ~ 10,000원 입니다.");
 //            return "기본 배달비 허용 범위는 0원 ~ 10,000원 입니다.";
             } else if (params.getDeliveryFee() % 500 != 0) {
-                throw new IllegalArgumentException("");
+                throw new IllegalArgumentException("기본 배달비는 500원 단위로만 입력 가능합니다.");
 //            return "기본 배달비는 500원 단위로만 입력 가능합니다.";
             }
 
             Restaurant restaurant = new Restaurant(params);
+        return restaurantRepository.save(restaurant);
 //            restaurantRepository.save(restaurant);
-            return restaurantRepository.save(restaurant);
 //            return "음식점 등록이 완료 되었습니다.";
         }
 
