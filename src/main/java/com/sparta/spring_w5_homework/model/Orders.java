@@ -10,14 +10,22 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @Getter
 @Entity
 public class Orders extends Timestamped {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurants;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resFood_id")
+    private ResFood resFoods;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     @Column(nullable = false)
@@ -25,27 +33,28 @@ public class Orders extends Timestamped {
     @Column(nullable = false)
     private String restaurantName;
     @Column(nullable = false)
-    private int deliveryFee;
+    private Long foodid;
     @Column(nullable = false)
-    private int totalPrice;
+    private String foodName;
+    @Column(nullable = false)
+    private int quantity;
+    @Column(nullable = false)
+    private int price;
+    @Column(nullable = false)
+    private int deliveryFee;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
-        public Orders(Long restaurantIds, String restaurantName, int deliveryFee, int totalPrice, LocalDateTime modifiedAt){
-            this.restaurantIds = restaurantIds;
-            this.restaurantName = restaurantName;
-            this.deliveryFee = deliveryFee;
-            this.totalPrice = totalPrice;
-            this.modifiedAt = modifiedAt;
-        }
-
         public Orders(OrdersRequestDto params){
         this.restaurantIds = params.getResId();
         this.restaurantName = params.getRestaurantName();
+        this.foodid = params.getFoodid();
+        this.foodName = params.getFoodName();
+        this.quantity = params.getQuantity();
+        this.price = params.getPrice();
         this.deliveryFee = params.getDeliveryFee();
-        this.totalPrice = params.getTotalPrice();
         this.modifiedAt = params.getModifiedAt();
     }
 

@@ -10,14 +10,18 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @Getter
 @Entity
 public class Restaurant extends Timestamped {
+    @OneToMany(mappedBy = "orders")
+    private List<Orders> orders = new ArrayList<>();
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     public Long id;
     @Column(nullable = false, unique = true)

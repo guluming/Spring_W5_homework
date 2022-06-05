@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 public class ResFood extends Timestamped {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     @Column(nullable = false)
