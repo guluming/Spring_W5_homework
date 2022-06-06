@@ -11,15 +11,15 @@ public class RestaurantResponseDto {
     private String name;
     private int minOrderPrice;
     private int deilveryFee;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+//    private LocalDateTime createdAt;
+//    private LocalDateTime modifiedAt;
 
     public RestaurantResponseDto(Restaurant entity){
         this.id = entity.getId();
         this.name = entity.getName();
         this.minOrderPrice = entity.getMinOrderPrice();
         this.deilveryFee = entity.getDeliveryFee();
-        this.createdAt = entity.getCreatedAt();
-        this.modifiedAt = entity.getModifiedAt();
+//        this.createdAt = entity.getCreatedAt();
+//        this.modifiedAt = entity.getModifiedAt();
     }
 }

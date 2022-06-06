@@ -11,5 +11,5 @@ public class ResFoodRequestDto {
     private String name;
     private int price;
     private Long restaurantId;
-    private LocalDateTime modifiedAt;
+//    private LocalDateTime modifiedAt;
 }

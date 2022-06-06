@@ -23,7 +23,7 @@ public class ResFoodService {
     //음식 등록
     @Transactional
     public String foodSave(Long restaurantId, List<ResFoodRequestListDto> resFoodDtoList){
-        LocalDateTime modifiedAt = LocalDateTime.now();
+//        LocalDateTime modifiedAt = LocalDateTime.now();
 
         if(restaurantId == 0){
             return "음식점 ID를 입력해주세요.";
@@ -39,7 +39,7 @@ public class ResFoodService {
 
             if(resFoodDtoList.get(i).getPrice() > 100 && resFoodDtoList.get(i).getPrice() < 1000000){
 
-                ResFoodRequestDto params = new ResFoodRequestDto(resFoodDtoList.get(i).getName(), resFoodDtoList.get(i).getPrice(), restaurantId, modifiedAt);
+                ResFoodRequestDto params = new ResFoodRequestDto(resFoodDtoList.get(i).getName(), resFoodDtoList.get(i).getPrice(), restaurantId);
 
                 ResFood resFood = new ResFood(params);
                 resFoodRepository.save(resFood);

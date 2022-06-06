@@ -12,6 +12,6 @@ public class RestaurantRequestDto {
     private String name;
     private int minOrderPrice;
     private int deliveryFee;
-    @LastModifiedDate
-    private LocalDateTime modifiedAt;
+//    @LastModifiedDate
+//    private LocalDateTime modifiedAt;
 }
