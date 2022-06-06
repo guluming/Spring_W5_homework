@@ -10,36 +10,32 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @Getter
 @Entity
-public class Restaurant extends Timestamped {
-    @OneToMany(mappedBy = "orders")
-    private List<Orders> orders = new ArrayList<>();
+public class Restaurant{
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    public Long id;
+    private Long id;
     @Column(nullable = false, unique = true)
     private String name;
     @Column(nullable = false)
     private int minOrderPrice;
     @Column(nullable = false)
     private int deliveryFee;
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+//    @CreatedDate
+//    private LocalDateTime createdAt;
+//    @LastModifiedDate
+//    private LocalDateTime modifiedAt = LocalDateTime.now();
 
     public Restaurant(RestaurantRequestDto params){
         this.name = params.getName();
         this.minOrderPrice = params.getMinOrderPrice();
         this.deliveryFee = params.getDeliveryFee();
-        this.modifiedAt = params.getModifiedAt();
+//        this.modifiedAt = params.getModifiedAt();
     }
 
     public void update(RestaurantRequestDto params){

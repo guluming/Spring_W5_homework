@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
-public class ResFood extends Timestamped {
+public class ResFood{
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -26,16 +26,16 @@ public class ResFood extends Timestamped {
     private int price;
     @Column(nullable = false)
     private Long restaurantId;
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+//    @CreatedDate
+//    private LocalDateTime createdAt;
+//    @LastModifiedDate
+//    private LocalDateTime modifiedAt = LocalDateTime.now();
 
     public ResFood(ResFoodRequestDto params){
         this.name = params.getName();
         this.price = params.getPrice();
         this.restaurantId = params.getRestaurantId();
-        this.modifiedAt = params.getModifiedAt();
+//        this.modifiedAt = params.getModifiedAt();
     }
 
     public void update(ResFoodRequestDto params){
