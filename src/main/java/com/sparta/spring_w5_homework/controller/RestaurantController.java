@@ -21,7 +21,7 @@ public class RestaurantController {
 
     //음식점 등록
     @PostMapping("/restaurant/register")
-    public Restaurant save(@RequestBody RestaurantRequestDto params){
+    public RestaurantResponseDto save(@RequestBody RestaurantRequestDto params){
         return restaurantService.restaurantSave(params);
     }
 

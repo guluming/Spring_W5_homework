@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
@@ -20,6 +21,8 @@ public class Restaurant{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
+//    @OneToMany(mappedBy = "restaurantId")
+//    private List<OrderFood> foods;
     @Column(nullable = false, unique = true)
     private String name;
     @Column(nullable = false)

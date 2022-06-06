@@ -21,7 +21,7 @@ public class RestaurantService {
 
     //음식점 등록
     @Transactional
-    public Restaurant restaurantSave(RestaurantRequestDto params) {
+    public RestaurantResponseDto restaurantSave(RestaurantRequestDto params) {
 
         if (params.getName().equals("")) {
             throw new IllegalArgumentException("음식점 이름을 입력해주세요.");
@@ -45,7 +45,8 @@ public class RestaurantService {
             }
 
             Restaurant restaurant = new Restaurant(params);
-        return restaurantRepository.save(restaurant);
+        restaurantRepository.save(restaurant);
+        return new RestaurantResponseDto(restaurant);
 //            restaurantRepository.save(restaurant);
 //            return "음식점 등록이 완료 되었습니다.";
         }
