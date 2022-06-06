@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.spring_w5_homework.model.Orders;
 import com.sparta.spring_w5_homework.requestdto.OrderFoodsListDto;
+import com.sparta.spring_w5_homework.responsedto.FoodOrderResponseDto;
 import com.sparta.spring_w5_homework.responsedto.OrdersResponseDto;
 import com.sparta.spring_w5_homework.service.OrdersService;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,14 @@ public class OrdersController {
     }
 
     //주문 조회
+    @GetMapping("/orders")
+    public List<OrdersResponseDto> findAll(){
+        return ordersService.ordersFindAll();
+    }
+
+    //주문 조회
 //    @GetMapping("/orders")
-//    public List<OrdersResponseDto> findAll(){
+//    public List<Orders> findAll(){
 //        return ordersService.ordersFindAll();
 //    }
 }
