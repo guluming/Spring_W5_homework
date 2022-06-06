@@ -1,13 +1,15 @@
 package com.sparta.spring_w5_homework.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.spring_w5_homework.model.Orders;
+import com.sparta.spring_w5_homework.requestdto.OrderFoodsListDto;
 import com.sparta.spring_w5_homework.responsedto.OrdersResponseDto;
-import com.sparta.spring_w5_homework.service.OrderFoodService;
 import com.sparta.spring_w5_homework.service.OrdersService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,21 +17,17 @@ import java.util.List;
 @RestController
 public class OrdersController {
     private final OrdersService ordersService;
-    private final OrderFoodService orderFoodService;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //주문
     @PostMapping("/order/request")
-    public String save(@RequestParam Long restaurantId, @RequestParam(value = "foods[]")List<List<String>> foods){
-        boolean ordersresult = ordersService.ordersSave(restaurantId, foods);
-        boolean orderFoodresult = orderFoodService.orderFoodSave(restaurantId, foods);
-        if(!ordersresult){
-            return "음식점 ID를 확인해 주세요.";
-        } else if (!orderFoodresult) {
-            return "주문 음식을 확인해 주세요.";
-        }
-        return "주문이 완료 되었습니다.";
+    public OrdersResponseDto save(@RequestParam("restaurantId") Long restaurantId, @RequestParam("foods") String jsonList) throws JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        List<OrderFoodsListDto> orderFoodsDtoList = objectMapper.readValue(jsonList, new TypeReference<List<OrderFoodsListDto>>() {});
+
+        return ordersService.ordersSave(restaurantId ,orderFoodsDtoList);
     }
 
     //주문 조회
