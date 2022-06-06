@@ -10,55 +10,40 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @Getter
 @Entity
-public class Orders extends Timestamped {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurants;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "resFood_id")
-    private ResFood resFoods;
+public class Orders {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     @Column(nullable = false)
-    private Long restaurantIds;
-    @Column(nullable = false)
     private String restaurantName;
-    @Column(nullable = false)
-    private Long foodid;
-    @Column(nullable = false)
-    private String foodName;
-    @Column(nullable = false)
-    private int quantity;
-    @Column(nullable = false)
-    private int price;
+    @OneToMany(mappedBy = "orders")
+    private List<OrderFood> foods;
     @Column(nullable = false)
     private int deliveryFee;
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    @Column(nullable = false)
+    private int totalPrice;
+//    @CreatedDate
+//    private LocalDateTime createdAt;
+//    @LastModifiedDate
+//    private LocalDateTime modifiedAt = LocalDateTime.now();
 
-        public Orders(OrdersRequestDto params){
-        this.restaurantIds = params.getResId();
+    public Orders(OrdersRequestDto params) {
         this.restaurantName = params.getRestaurantName();
-        this.foodid = params.getFoodid();
-        this.foodName = params.getFoodName();
-        this.quantity = params.getQuantity();
-        this.price = params.getPrice();
+        this.foods = params.getFoods();
         this.deliveryFee = params.getDeliveryFee();
-        this.modifiedAt = params.getModifiedAt();
+        this.totalPrice = params.getTotalPrice();
+//        this.modifiedAt = params.getModifiedAt();
     }
 
-    public void update(OrdersRequestDto params){
+    public void update(OrdersRequestDto params) {
 
     }
 }
