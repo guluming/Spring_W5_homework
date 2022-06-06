@@ -3,9 +3,9 @@ package com.sparta.spring_w5_homework.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
-//@AllArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -16,22 +16,33 @@ public class OrderFood {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Orders orders;
+    private Orders ordersId;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "resfood_id")
+//    private ResFood resFoodId;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "restaurant_id")
+//    private Restaurant restaurantId;
 
     @Column
     private String foodName;
-
     @Column
     private int quantity;
-
     @Column
     private int price;
 
-//    @Builder
-//    public OrderFood(){
-//        this.foodName = getFoodName();
-//        this.quantity = getQuantity();
-//        this.price = getPrice();
-//    }
+    public OrderFood(Orders ordersId, String foodName, int quantity, int price){
+        this.ordersId = ordersId;
+        this.foodName = foodName;
+        this.quantity = quantity;
+        this.price = price;
+    }
 
+//    public OrderFood(String foodName, int quantity, int price){
+//        this.foodName = foodName;
+//        this.quantity = quantity;
+//        this.price = price;
+//    }
 }
