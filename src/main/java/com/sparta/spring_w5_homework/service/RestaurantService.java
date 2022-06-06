@@ -52,7 +52,7 @@ public class RestaurantService {
 
     //음식점 조회
     public List<RestaurantResponseDto> restaurantFindAll() {
-        Sort sort = Sort.by(Sort.Direction.DESC, "modifiedAt");
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
         List<Restaurant> list = restaurantRepository.findAll(sort);
         return list.stream().map(RestaurantResponseDto::new).collect(Collectors.toList());
     }
