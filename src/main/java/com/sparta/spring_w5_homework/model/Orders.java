@@ -2,6 +2,7 @@ package com.sparta.spring_w5_homework.model;
 
 import com.sparta.spring_w5_homework.requestdto.OrdersRequestDto;
 import com.sparta.spring_w5_homework.utils.Timestamped;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,10 +23,13 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
+
+    @OneToMany(mappedBy = "ordersId")
+    private List<OrderFood> foods;
     @Column(nullable = false)
     private String restaurantName;
-    @OneToMany(mappedBy = "orders")
-    private List<OrderFood> foods;
+//    @Column(nullable = false)
+//    private Long restaurantId;
     @Column(nullable = false)
     private int deliveryFee;
     @Column(nullable = false)
@@ -37,11 +41,18 @@ public class Orders {
 
     public Orders(OrdersRequestDto params) {
         this.restaurantName = params.getRestaurantName();
-        this.foods = params.getFoods();
+//        this.foods = params.getFoods();
+//        this.restaurantId = params.getRestaurantId();
         this.deliveryFee = params.getDeliveryFee();
         this.totalPrice = params.getTotalPrice();
 //        this.modifiedAt = params.getModifiedAt();
     }
+
+//    public static class OrderFood {
+//        private String foodname;
+//        private int quantity;
+//        private int price;
+//    }
 
     public void update(OrdersRequestDto params) {
 
