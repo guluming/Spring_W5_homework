@@ -2,9 +2,6 @@ package com.sparta.spring_w5_homework.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.spring_w5_homework.controller.OrdersController;
-import com.sparta.spring_w5_homework.repository.OrdersRepository;
-import com.sparta.spring_w5_homework.service.OrdersService;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,13 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class OrderIntegrationTest {
-
-//    @Autowired
-//    OrdersController ordersController;
-//    @Autowired
-//    OrdersService ordersService;
-//    @Autowired
-//    OrdersRepository ordersRepository;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -441,6 +431,7 @@ class OrderIntegrationTest {
 
     @Getter
     @Setter
+    @Builder
     static class FoodOrderDto {
         String name;
         int quantity;
