@@ -99,7 +99,7 @@ public class OrdersService {
         List<FoodOrderResponseDto> foodOrderResponseDtos = new ArrayList<>();
 
         for (int i = 0; i < foods.size(); i++) {
-            String foodName = foods.get(i).getFoodName();
+            String foodName = foods.get(i).getName();
             int quantity = foods.get(i).getQuantity();
             int price = foods.get(i).getPrice();
 
@@ -126,7 +126,7 @@ public class OrdersService {
 
             for (int j = 0; j < orderFoodList.size(); j++) {
 
-                String foodName = orderFoodList.get(j).getFoodName();
+                String foodName = orderFoodList.get(j).getName();
                 int quantity = orderFoodList.get(j).getQuantity();
                 int price = orderFoodList.get(j).getPrice();
 

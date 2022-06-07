@@ -16,15 +16,15 @@ public class OrderFood {
     @JoinColumn(name = "order_id")
     private Orders ordersId;
     @Column
-    private String foodName;
+    private String name;
     @Column
     private int quantity;
     @Column
     private int price;
 
-    public OrderFood(Orders ordersId, String foodName, int quantity, int price){
+    public OrderFood(Orders ordersId, String name, int quantity, int price){
         this.ordersId = ordersId;
-        this.foodName = foodName;
+        this.name = name;
         this.quantity = quantity;
         this.price = price;
     }
