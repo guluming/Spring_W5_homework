@@ -1,13 +1,15 @@
 package com.sparta.spring_w5_homework.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.sparta.spring_w5_homework.requestdto.ResFoodRequestListDto;
 import com.sparta.spring_w5_homework.responsedto.ResFoodResponseDto;
 import com.sparta.spring_w5_homework.service.ResFoodService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -21,13 +23,13 @@ public class ResFoodController {
 
     //음식 등록
     @PostMapping("/restaurant/{restaurantId}/food/register")
-    public String save(@PathVariable Long restaurantId, @RequestParam("foods") String jsonList)
-            throws JsonProcessingException {
+    public void save(@PathVariable Long restaurantId, @RequestBody List<ResFoodRequestListDto> jsonList){
 
-        ObjectMapper objectMapper = new ObjectMapper()
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        List<ResFoodRequestListDto> resFoodDtoList = objectMapper.readValue(jsonList, new TypeReference<List<ResFoodRequestListDto>>() {});
-          return resFoodService.foodSave(restaurantId, resFoodDtoList);
+        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        List<ResFoodRequestListDto> resFoodDtoList = objectMapper.convertValue(jsonList, new TypeReference<List<ResFoodRequestListDto>>() {});
+
+        resFoodService.foodSave(restaurantId, resFoodDtoList);
+//          return "주문이 완료되었습니다.";
     }
 
     //메뉴판 조회
