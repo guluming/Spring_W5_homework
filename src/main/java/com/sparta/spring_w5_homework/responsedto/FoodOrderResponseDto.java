@@ -6,7 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class FoodOrderResponseDto {
-    private String foodName;
+    private String name;
     private int quantity;
     private int price;
 }

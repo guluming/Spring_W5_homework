@@ -88,9 +88,9 @@ public class OrdersService {
 
             int price = quantity * orderResFood.getPrice();
 
-            String foodName = orderResFood.getName();
+            String name = orderResFood.getName();
 
-            OrderFood orderFood = new OrderFood(ordersId, foodName, quantity, price);
+            OrderFood orderFood = new OrderFood(ordersId, name, quantity, price);
             foods.add(orderFood);
         }
         orderFoodRepository.saveAll(foods);
@@ -99,11 +99,11 @@ public class OrdersService {
         List<FoodOrderResponseDto> foodOrderResponseDtos = new ArrayList<>();
 
         for (int i = 0; i < foods.size(); i++) {
-            String foodName = foods.get(i).getName();
+            String name = foods.get(i).getName();
             int quantity = foods.get(i).getQuantity();
             int price = foods.get(i).getPrice();
 
-            FoodOrderResponseDto foodOrderResponseDto = new FoodOrderResponseDto(foodName, quantity, price);
+            FoodOrderResponseDto foodOrderResponseDto = new FoodOrderResponseDto(name, quantity, price);
 
             foodOrderResponseDtos.add(foodOrderResponseDto);
 
@@ -126,11 +126,11 @@ public class OrdersService {
 
             for (int j = 0; j < orderFoodList.size(); j++) {
 
-                String foodName = orderFoodList.get(j).getName();
+                String name = orderFoodList.get(j).getName();
                 int quantity = orderFoodList.get(j).getQuantity();
                 int price = orderFoodList.get(j).getPrice();
 
-                FoodOrderResponseDto foodOrderResponseDto = new FoodOrderResponseDto(foodName, quantity, price);
+                FoodOrderResponseDto foodOrderResponseDto = new FoodOrderResponseDto(name, quantity, price);
                 foodOrderResponseDtos.add(foodOrderResponseDto);
             }
 
