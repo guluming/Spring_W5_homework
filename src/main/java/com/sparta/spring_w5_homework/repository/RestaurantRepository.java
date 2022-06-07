@@ -1,6 +1,11 @@
 package com.sparta.spring_w5_homework.repository;
 
+import com.sparta.spring_w5_homework.model.ResFood;
 import com.sparta.spring_w5_homework.model.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {}
+import java.util.Optional;
+
+public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+    Optional<Restaurant> findByName(String name);
+}

@@ -1,6 +1,7 @@
 package com.sparta.spring_w5_homework.responsedto;
 
 import com.sparta.spring_w5_homework.model.ResFood;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

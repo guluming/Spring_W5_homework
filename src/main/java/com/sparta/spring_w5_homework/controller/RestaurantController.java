@@ -1,10 +1,11 @@
 package com.sparta.spring_w5_homework.controller;
 
-import com.sparta.spring_w5_homework.model.Restaurant;
 import com.sparta.spring_w5_homework.requestdto.RestaurantRequestDto;
 import com.sparta.spring_w5_homework.responsedto.RestaurantResponseDto;
 import com.sparta.spring_w5_homework.service.RestaurantService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
