@@ -25,10 +25,11 @@ public class ResFoodController {
     @PostMapping("/restaurant/{restaurantId}/food/register")
     public void save(@PathVariable Long restaurantId, @RequestBody List<ResFoodRequestListDto> jsonList){
 
-        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        List<ResFoodRequestListDto> resFoodDtoList = objectMapper.convertValue(jsonList, new TypeReference<List<ResFoodRequestListDto>>() {});
+//        ObjectMapper objectMapper = new ObjectMapper()
+//                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//        List<ResFoodRequestListDto> resFoodDtoList = objectMapper.convertValue(jsonList, new TypeReference<List<ResFoodRequestListDto>>() {});
 
-        resFoodService.foodSave(restaurantId, resFoodDtoList);
+        resFoodService.foodSave(restaurantId, jsonList);
 //          return "주문이 완료되었습니다.";
     }
 

@@ -41,7 +41,8 @@ public class OrdersService {
             throw new IllegalArgumentException("해당 음식점을 찾을 수 없습니다.");
 //            return "해당 음식점을 찾을 수 없습니다.";
         }
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new NullPointerException("음식점이 존재 하지 않습니다."));
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
+                () -> new NullPointerException("음식점이 존재 하지 않습니다."));
 
         //쓰이는 곳이 한 곳이면 선언하지말고 바로 넣기
         String restaurantName = restaurant.getName();
@@ -54,7 +55,8 @@ public class OrdersService {
             Long foodId = ((Number) orderfoods.get(i).get("id")).longValue();
             int quantity = (Integer) orderfoods.get(i).get("quantity");
 
-            ResFood orderResFood = resFoodRepository.findByRestaurantIdAndId(restaurantId, foodId).orElseThrow(() -> new NullPointerException("해당 음식은 해당 음식점에 없습니다."));
+            ResFood orderResFood = resFoodRepository.findByRestaurantIdAndId(restaurantId, foodId).orElseThrow(
+                    () -> new NullPointerException("해당 음식은 해당 음식점에 없습니다."));
 
             if (1 <= quantity && quantity <= 100) {
 
@@ -84,7 +86,8 @@ public class OrdersService {
             Long foodId = ((Number) orderfoods.get(i).get("id")).longValue();
             int quantity = (Integer) orderfoods.get(i).get("quantity");
 
-            ResFood orderResFood = resFoodRepository.findByRestaurantIdAndId(restaurantId, foodId).orElseThrow(() -> new NullPointerException("해당 음식은 해당 음식점에 없습니다."));
+            ResFood orderResFood = resFoodRepository.findByRestaurantIdAndId(restaurantId, foodId).orElseThrow(
+                    () -> new NullPointerException("해당 음식은 해당 음식점에 없습니다."));
 
             int price = quantity * orderResFood.getPrice();
 
@@ -108,7 +111,8 @@ public class OrdersService {
             foodOrderResponseDtos.add(foodOrderResponseDto);
 
         }
-        OrdersResponseDto ordersResponseDto = new OrdersResponseDto(ordersId.getRestaurantName(), foodOrderResponseDtos, ordersId.getDeliveryFee(), ordersId.getTotalPrice());
+        OrdersResponseDto ordersResponseDto = new OrdersResponseDto(ordersId.getRestaurantName(), foodOrderResponseDtos,
+                ordersId.getDeliveryFee(), ordersId.getTotalPrice());
 
         return ordersResponseDto;
     }
@@ -134,8 +138,8 @@ public class OrdersService {
                 foodOrderResponseDtos.add(foodOrderResponseDto);
             }
 
-            OrdersResponseDto ordersResponseDto = new OrdersResponseDto(orderList.get(i).getRestaurantName(), foodOrderResponseDtos,
-                    orderList.get(i).getDeliveryFee(), orderList.get(i).getTotalPrice());
+            OrdersResponseDto ordersResponseDto = new OrdersResponseDto(orderList.get(i).getRestaurantName(),
+                    foodOrderResponseDtos, orderList.get(i).getDeliveryFee(), orderList.get(i).getTotalPrice());
 
             ordersResponseDtos.add(ordersResponseDto);
         }
