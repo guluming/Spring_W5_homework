@@ -18,17 +18,16 @@ import java.util.List;
 public class RestaurantController {
     private final RestaurantService restaurantService;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //음식점 등록
     @PostMapping("/restaurant/register")
-    public RestaurantResponseDto save(@RequestBody RestaurantRequestDto params){
-        return restaurantService.restaurantSave(params);
+    public RestaurantResponseDto saveRestaurant(@RequestBody RestaurantRequestDto jsonDate){
+        return restaurantService.restaurantSave(jsonDate);
     }
 
-    //음식점 조회
+    //음식점 전체 조회
     @GetMapping("/restaurants")
-    public List<RestaurantResponseDto> findAll(){
+    public List<RestaurantResponseDto> findAllRestaurant(){
         return restaurantService.restaurantFindAll();
     }
 }

@@ -15,17 +15,16 @@ import java.util.List;
 public class OrdersController {
     private final OrdersService ordersService;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //주문
     @PostMapping("/order/request")
-    public OrdersResponseDto save(@RequestBody OrderListDto params) {
-        return ordersService.ordersSave(params.getRestaurantId(), params.getFoods());
+    public OrdersResponseDto saveOrder(@RequestBody OrderListDto jsonList) {
+        return ordersService.saveOrder(jsonList.getRestaurantId(), jsonList.getOrderFoods());
     }
 
-    //주문 조회
+    //주문 전체 조회
     @GetMapping("/orders")
-    public List<OrdersResponseDto> findAll() {
-        return ordersService.ordersFindAll();
+    public List<OrdersResponseDto> findAllOrder() {
+        return ordersService.findAllOrder();
     }
 }

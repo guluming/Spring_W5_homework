@@ -19,23 +19,21 @@ import java.util.*;
 public class ResFoodController {
     private final ResFoodService resFoodService;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //음식 등록
     @PostMapping("/restaurant/{restaurantId}/food/register")
-    public void save(@PathVariable Long restaurantId, @RequestBody List<ResFoodRequestListDto> jsonList){
+    public void saveResFood(@PathVariable Long restaurantId, @RequestBody List<ResFoodRequestListDto> jsonList){
 
 //        ObjectMapper objectMapper = new ObjectMapper()
 //                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 //        List<ResFoodRequestListDto> resFoodDtoList = objectMapper.convertValue(jsonList, new TypeReference<List<ResFoodRequestListDto>>() {});
 
-        resFoodService.foodSave(restaurantId, jsonList);
-//          return "주문이 완료되었습니다.";
+        resFoodService.saveResFood(restaurantId, jsonList);
     }
 
-    //메뉴판 조회
+    //메뉴판(특정 음식점 음식 전체) 조회
     @GetMapping("/restaurant/{restaurantId}/foods")
-    public List<ResFoodResponseDto> findByMenu(@PathVariable Long restaurantId){
-        return resFoodService.findByMenu(restaurantId);
+    public List<ResFoodResponseDto> findByRestaurantMenu(@PathVariable Long restaurantId){
+        return resFoodService.findByRestaurantMenu(restaurantId);
     }
 }
