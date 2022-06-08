@@ -11,6 +11,7 @@ import com.sparta.spring_w5_homework.repository.OrdersRepository;
 import com.sparta.spring_w5_homework.repository.RestaurantRepository;
 
 import com.sparta.spring_w5_homework.requestdto.OrdersRequestDto;
+import com.sparta.spring_w5_homework.requestdto.RestaurantMenuRequestDto;
 
 import com.sparta.spring_w5_homework.responsedto.FoodOrderResponseDto;
 import com.sparta.spring_w5_homework.responsedto.OrdersResponseDto;
@@ -34,115 +35,98 @@ public class OrdersService {
     private final OrderFoodRepository orderFoodRepository;
 
 
-    //주문
+    //주문 정보 등록
     @Transactional
-    public OrdersResponseDto ordersSave(Long restaurantId, ArrayList<Map<String,Object>> orderfoods) {
+    public OrdersResponseDto saveOrder(Long restaurantId, ArrayList<Map<String, Object>> orderFoods) {
+
+        //주문 음식점 확인
         if (restaurantId == 0) {
             throw new IllegalArgumentException("해당 음식점을 찾을 수 없습니다.");
-//            return "해당 음식점을 찾을 수 없습니다.";
         }
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
                 () -> new NullPointerException("음식점이 존재 하지 않습니다."));
 
-        //쓰이는 곳이 한 곳이면 선언하지말고 바로 넣기
-        String restaurantName = restaurant.getName();
-        int deliveryFee = restaurant.getDeliveryFee();
-        int minOrderPrice = restaurant.getMinOrderPrice();
         int totalPrice = 0;
 
-        for (int i = 0; i < orderfoods.size(); i++) {
-
-            Long foodId = ((Number) orderfoods.get(i).get("id")).longValue();
-            int quantity = (Integer) orderfoods.get(i).get("quantity");
-
-            ResFood orderResFood = resFoodRepository.findByRestaurantIdAndId(restaurantId, foodId).orElseThrow(
-                    () -> new NullPointerException("해당 음식은 해당 음식점에 없습니다."));
-
-            if (1 <= quantity && quantity <= 100) {
-
-                int price = quantity * orderResFood.getPrice();
-
-                totalPrice += price;
-            } else {
-                throw new IllegalArgumentException("주문 가능한 음식 수량은 1개 ~ 100개 입니다.");
-            }
+        //주문 정보 등록
+        for (Map<String, Object> orderFoodInfo : orderFoods) {
+            RestaurantMenuRequestDto result = searchRestaurantMenu(restaurantId, orderFoodInfo);
+            totalPrice += result.getPrice();
         }
-
-        if (totalPrice < minOrderPrice) {
+        if (totalPrice < restaurant.getMinOrderPrice()) {
             throw new IllegalArgumentException("최소 주문 가격을 확인해 주세요.");
         }
+        totalPrice = totalPrice + restaurant.getDeliveryFee();
 
-        totalPrice = totalPrice + deliveryFee;
-
-        OrdersRequestDto params = new OrdersRequestDto(restaurantName, deliveryFee, totalPrice);
+        OrdersRequestDto params = new OrdersRequestDto(restaurant.getName(), restaurant.getDeliveryFee(), totalPrice);
         Orders orders = new Orders(params);
         Orders ordersId = ordersRepository.save(orders);
 
+        //주문 음식 정보 등록
+        List<OrderFood> orderFoodList = saveOrderFood(restaurantId, orderFoods, ordersId);
 
-        List<OrderFood> foods = new ArrayList<>();
-
-        for (int i = 0; i < orderfoods.size(); i++) {
-
-            Long foodId = ((Number) orderfoods.get(i).get("id")).longValue();
-            int quantity = (Integer) orderfoods.get(i).get("quantity");
-
-            ResFood orderResFood = resFoodRepository.findByRestaurantIdAndId(restaurantId, foodId).orElseThrow(
-                    () -> new NullPointerException("해당 음식은 해당 음식점에 없습니다."));
-
-            int price = quantity * orderResFood.getPrice();
-
-            String name = orderResFood.getName();
-
-            OrderFood orderFood = new OrderFood(ordersId, name, quantity, price);
-            foods.add(orderFood);
-        }
-        orderFoodRepository.saveAll(foods);
-
-
-        List<FoodOrderResponseDto> foodOrderResponseDtos = new ArrayList<>();
-
-        for (int i = 0; i < foods.size(); i++) {
-            String name = foods.get(i).getName();
-            int quantity = foods.get(i).getQuantity();
-            int price = foods.get(i).getPrice();
-
-            FoodOrderResponseDto foodOrderResponseDto = new FoodOrderResponseDto(name, quantity, price);
-
-            foodOrderResponseDtos.add(foodOrderResponseDto);
-
-        }
-        OrdersResponseDto ordersResponseDto = new OrdersResponseDto(ordersId.getRestaurantName(), foodOrderResponseDtos,
+        //주문 결과 확인
+        return new OrdersResponseDto(ordersId.getRestaurantName(), findOrderFood(orderFoodList),
                 ordersId.getDeliveryFee(), ordersId.getTotalPrice());
-
-        return ordersResponseDto;
     }
 
-    //주문 전체 조회
-    public List<OrdersResponseDto> ordersFindAll() {
+    //주문 음식 정보 등록
+    public List<OrderFood> saveOrderFood(Long restaurantId, ArrayList<Map<String, Object>> orderFoods, Orders ordersId) {
+        List<OrderFood> orderFoodList = new ArrayList<>();
+        for (Map<String, Object> orderFoodInfo : orderFoods) {
+            RestaurantMenuRequestDto result = searchRestaurantMenu(restaurantId, orderFoodInfo);
+
+            OrderFood orderFood = new OrderFood(ordersId, result.getName(), result.getQuantity(), result.getPrice());
+            orderFoodList.add(orderFood);
+        }
+        return orderFoodRepository.saveAll(orderFoodList);
+    }
+
+    //주문 음식 메뉴판에서 검색
+    public RestaurantMenuRequestDto searchRestaurantMenu(Long restaurantId, Map<String, Object> orderFoodInfo) {
+        Long foodId = ((Number) orderFoodInfo.get("id")).longValue();
+        int quantity = (Integer) orderFoodInfo.get("quantity");
+        int price;
+
+        ResFood orderResFood = resFoodRepository.findByRestaurantIdAndId(restaurantId, foodId).orElseThrow(
+                () -> new NullPointerException("해당 음식은 해당 음식점에 없습니다."));
+
+        if (1 > quantity || quantity > 100) {
+            throw new IllegalArgumentException("주문 가능한 음식 수량은 1개 ~ 100개 입니다.");
+        } else {
+            price = quantity * orderResFood.getPrice();
+        }
+        return new RestaurantMenuRequestDto(orderResFood.getName(), quantity, price);
+    }
+
+    //주문 정보 전체 조회
+    public List<OrdersResponseDto> findAllOrder() {
         Sort sort = Sort.by(Sort.Direction.ASC, "id");
         List<OrdersResponseDto> ordersResponseDtos = new ArrayList<>();
-        List<FoodOrderResponseDto> foodOrderResponseDtos = new ArrayList<>();
         List<Orders> orderList = ordersRepository.findAll(sort);
+        for (Orders orders : orderList) {
 
-        for (int i = 0; i < orderList.size(); i++) {
+            List<OrderFood> orderFoodList = orderFoodRepository.findAllByOrdersId(orders);
 
-            List<OrderFood> orderFoodList = orderFoodRepository.findAllByordersId(orderList.get(i));
-
-            for (int j = 0; j < orderFoodList.size(); j++) {
-
-                String name = orderFoodList.get(j).getName();
-                int quantity = orderFoodList.get(j).getQuantity();
-                int price = orderFoodList.get(j).getPrice();
-
-                FoodOrderResponseDto foodOrderResponseDto = new FoodOrderResponseDto(name, quantity, price);
-                foodOrderResponseDtos.add(foodOrderResponseDto);
-            }
-
-            OrdersResponseDto ordersResponseDto = new OrdersResponseDto(orderList.get(i).getRestaurantName(),
-                    foodOrderResponseDtos, orderList.get(i).getDeliveryFee(), orderList.get(i).getTotalPrice());
+            OrdersResponseDto ordersResponseDto = new OrdersResponseDto(orders.getRestaurantName(),
+                    findOrderFood(orderFoodList), orders.getDeliveryFee(), orders.getTotalPrice());
 
             ordersResponseDtos.add(ordersResponseDto);
         }
         return ordersResponseDtos;
+    }
+
+    //주문 음식 정보 조회
+    public List<FoodOrderResponseDto> findOrderFood(List<OrderFood> orderFoodList) {
+        List<FoodOrderResponseDto> foodOrderResponseDtos = new ArrayList<>();
+        for (OrderFood food : orderFoodList) {
+            String name = food.getName();
+            int quantity = food.getQuantity();
+            int price = food.getPrice();
+
+            FoodOrderResponseDto foodOrderResponseDto = new FoodOrderResponseDto(name, quantity, price);
+            foodOrderResponseDtos.add(foodOrderResponseDto);
+        }
+        return foodOrderResponseDtos;
     }
 }
