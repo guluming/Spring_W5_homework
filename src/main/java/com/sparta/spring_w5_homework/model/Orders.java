@@ -36,8 +36,4 @@ public class Orders {
         this.deliveryFee = params.getDeliveryFee();
         this.totalPrice = params.getTotalPrice();
     }
-
-    public void update(OrdersRequestDto params) {
-
-    }
 }

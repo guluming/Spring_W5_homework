@@ -30,8 +30,4 @@ public class Restaurant{
         this.minOrderPrice = params.getMinOrderPrice();
         this.deliveryFee = params.getDeliveryFee();
     }
-
-    public void update(RestaurantRequestDto params){
-
-    }
 }

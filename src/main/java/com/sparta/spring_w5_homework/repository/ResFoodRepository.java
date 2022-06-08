@@ -1,6 +1,7 @@
 package com.sparta.spring_w5_homework.repository;
 
 import com.sparta.spring_w5_homework.model.ResFood;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

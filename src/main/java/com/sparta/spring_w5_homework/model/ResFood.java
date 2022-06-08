@@ -30,8 +30,4 @@ public class ResFood{
         this.price = params.getPrice();
         this.restaurantId = params.getRestaurantId();
     }
-
-    public void update(ResFoodRequestDto params){
-
-    }
 }
