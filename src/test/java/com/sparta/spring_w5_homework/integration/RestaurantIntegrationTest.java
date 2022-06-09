@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.junit.Test;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,7 @@ class RestaurantIntegrationTest {
     private final List<RestaurantDto> registeredRestaurants = new ArrayList<>();
 
     @BeforeEach
+    @Test
     public void setup() {
         headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
