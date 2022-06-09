@@ -72,9 +72,10 @@ public class OrdersService {
 
     //주문 정보 전체 조회
     public List<OrdersResponseDto> findAllOrder() {
-        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+//        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+//        List<Orders> orderList = ordersRepository.findAll(sort);
         List<OrdersResponseDto> ordersResponseDtos = new ArrayList<>();
-        List<Orders> orderList = ordersRepository.findAll(sort);
+        List<Orders> orderList = ordersRepository.findAllByOrderByIdAsc();
         for (Orders orders : orderList) {
             List<OrderFood> orderFoodList = orderFoodRepository.findAllByOrdersId(orders);
 
