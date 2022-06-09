@@ -1,19 +1,16 @@
 package com.sparta.spring_w5_homework.service;
 
 import com.sparta.spring_w5_homework.model.OrderFood;
-import com.sparta.spring_w5_homework.model.ResFood;
 import com.sparta.spring_w5_homework.model.Orders;
 import com.sparta.spring_w5_homework.model.Restaurant;
 
 import com.sparta.spring_w5_homework.repository.OrderFoodRepository;
-import com.sparta.spring_w5_homework.repository.ResFoodRepository;
 import com.sparta.spring_w5_homework.repository.OrdersRepository;
 import com.sparta.spring_w5_homework.repository.RestaurantRepository;
 
 import com.sparta.spring_w5_homework.requestdto.OrdersRequestDto;
 import com.sparta.spring_w5_homework.requestdto.RestaurantMenuRequestDto;
 
-import com.sparta.spring_w5_homework.responsedto.FoodOrderResponseDto;
 import com.sparta.spring_w5_homework.responsedto.OrdersResponseDto;
 
 import lombok.RequiredArgsConstructor;
